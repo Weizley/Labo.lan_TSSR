@@ -1,0 +1,101 @@
+**PROCEDURE TECHNIQUE : CHIFFREMENT DE LECTEUR BITLOCKER**
+
+**1\. Objet et Contexte**
+
+Cette procédure décrit les étapes nécessaires pour activer le chiffrement de lecteur BitLocker sur le volume système (C:) d'un poste de travail Windows (10/11 Pro/Entreprise).
+
+Cette version s'applique spécifiquement aux environnements de test (Lab) ou aux postes ne disposant pas d'une puce matérielle **TPM (Trusted Platform Module)** fonctionnelle, en s'appuyant sur une modification de la stratégie de groupe locale.
+
+**2\. Prérequis**
+
+Un poste ou une machine virtuelle exécutant **Windows 10/11 Professionnel** ou **Entreprise**.
+
+Un compte utilisateur disposant des privilèges **Administrateur local**.
+
+Une clé USB (optionnel, pour la sauvegarde de la clé de récupération).
+
+**3\. Étapes de réalisation**
+
+**Étape 3.1 : Autoriser le chiffrement sans puce TPM (Via GPO locale)**
+
+Ouvrir la boîte de dialogue exécuter (**Win + R**), saisir gpedit.msc et valider.
+
+Naviguer dans l'arborescence suivante :
+
+Configuration ordinateur > Modèles d'administration > Composants Windows > Chiffrement de lecteur BitLocker > Lecteurs du système d'exploitation
+
+Dans le volet de droite, double-cliquer sur la stratégie : **"Exiger une authentification supplémentaire au démarrage"**.
+
+Sélectionner l'option **Activé**.
+
+Vérifier que l'option "Autoriser BitLocker sans un module de plateforme sécurisée compatible" est bien cochée dans le volet inférieur.
+
+Cliquer sur **Appliquer** puis sur **OK**.
+
+Ouvrir une invite de commandes ou un terminal PowerShell en administrateur et forcer l'application de la stratégie :
+
+DOS
+
+gpupdate /force
+
+**Étape 3.2 : Activation de BitLocker (Méthode Graphique)**
+
+Ouvrir le menu Démarrer, rechercher **Gérer BitLocker** et ouvrir le panneau de configuration associé.
+
+En face du lecteur C:, cliquer sur **Activer BitLocker**.
+
+À l'invite de sécurité, choisir l'option **Insérer une clé USB** ou **Saisir un mot de passe** (ce mot de passe sera demandé à chaque démarrage du PC). Saisir un mot de passe fort.
+
+**Sauvegarde de la clé de secours :** Sélectionner Enregistrer dans un fichier (ou Imprimer) pour sauvegarder la clé de récupération de 48 chiffres sur un emplacement sécurisé (ex: clé USB externe, serveur de fichiers).
+
+**Mode de chiffrement :** Sélectionner Chiffrer uniquement l'espace disque utilisé (recommandé pour gagner du temps en Lab).
+
+**Choix de l'algorithme :** Sélectionner Mode de chiffrement nouveau (XTS-AES).
+
+Cocher la case **Exécuter la vérification du système BitLocker**, puis cliquer sur **Continuer**.
+
+**Redémarrer le poste** pour initialiser le processus de chiffrement en arrière-plan.
+
+**Étape 3.3 : Activation de BitLocker (Méthode PowerShell - Alternative)**
+
+Au lieu de l'étape 3.2, il est possible d'exécuter ces commandes dans un terminal PowerShell en Administrateur :
+
+Lancer le chiffrement du lecteur avec un mot de passe de protection au démarrage (en l'absence de TPM) :
+
+PowerShell
+
+Enable-BitLocker -MountPoint "C:" -EncryptionMethod XtsAes256 -UsedSpaceOnly -PasswordProtector
+
+Récupérer et sauvegarder immédiatement la clé de récupération de 48 chiffres générée :
+
+PowerShell
+
+(Get-BitLockerVolume -MountPoint "C:").KeyProtector | Where-Object {\$\_.KeyProtectorType -eq "RecoveryPassword"}
+
+**4\. Contrôle et Vérification**
+
+Pour valider le bon fonctionnement du chiffrement, exécuter la commande suivante dans une invite de commandes en mode Administrateur :
+
+DOS
+
+manage-bde -status C:
+
+**Indicateurs de succès :**
+
+État de la protection : doit indiquer **Protection activée**.
+
+Pourcentage chiffré : doit atteindre **100,0 %** (ou être en cours de progression).
+
+Protecteurs de clé : doit afficher **Mot de passe** et **Mot de passe de récupération**.
+
+**5\. Procédure de secours / Rollback**
+
+Si le chiffrement doit être annulé ou pose des problèmes de performance sur la VM :
+
+Ouvrir PowerShell en administrateur.
+
+Saisir la commande de déchiffrement complet :
+
+PowerShell
+
+Disable-BitLocker -MountPoint "C:"
