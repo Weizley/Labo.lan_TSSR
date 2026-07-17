@@ -12,8 +12,7 @@ L'objectif de ce laboratoire est de concevoir, déployer, cloisonner et sécuris
 ## Architecture Réseau & Schéma cible
 Voici le schéma conceptuel de l'infrastructure (zones de routage, adressage et cloisonnement) :
 
-![Plan Réseau de mon Labo TSSR](<img width="1082" height="814" alt="Plan_Labo lan" src="https://github.com/user-attachments/assets/7c3c39f6-86ad-4b3e-a7d5-fe925d2f9600" />
-)
+![Plan Réseau de mon Labo TSSR](images/Plan_Labo.lan.png)
 
 ---
 
