@@ -1,4 +1,4 @@
-**FICHE DE PROCÉDURE: Mise en œuvre d'un Cluster Proxmox VE en Haute Disponibilité (HA) avec Arbitrage et Stockage Partagé**
+**PROCEDURE TECHNIQUE : Mise en œuvre d'un Cluster Proxmox VE en Haute Disponibilité (HA) avec Arbitrage et Stockage Partagé**
 
 **Objectif :** Créer une infrastructure virtualisée redondante (Cluster de basculement) permettant la migration à chaud (Live Migration) et la reprise après sinistre (Failover) de machines virtuelles.
 
