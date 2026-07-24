@@ -1,6 +1,7 @@
-**FICHE DE PROCEDURE : Création d'une DMZ et Déploiement d'un Serveur Web Nginx sous Debian**
+## FICHE DE PROCÉDURE : Création d'une DMZ et Déploiement d'un Serveur Web Nginx sous Debian
 
 **Objectif :** Étendre l'infrastructure de filtrage pfSense en créant une troisième zone étanche (DMZ) pour héberger un serveur Web public Nginx, tout en garantissant l'isolation du réseau privé (LAN).
+
 ---
 
 **Étape 1 : Cartographie et Plan d'Adressage mis à jour**
@@ -10,6 +11,7 @@ Pour cette extension, un nouveau réseau virtuel est créé afin de cloisonner l
 | **Zone Réseau** | **Commutateur (VMware)** | **Adresse Réseau** | **IP Passerelle (pfSense)** | **IP Machine(s)**           |
 | --------------- | ------------------------ | ------------------ | --------------------------- | --------------------------- |
 | **DMZ**         | **VMnet2 (Hôte un.)**    | **172.16.0.0 /24** | **172.16.0.2**              | **172.16.0.50 (SRV-WEB01)** |
+
 ---
 
 **Étape 2 : Provisionnement Matériel de la DMZ dans VMware**
@@ -29,6 +31,7 @@ Pour cette extension, un nouveau réseau virtuel est créé afin de cloisonner l
 - Cliquer sur **Add...** > **Network Adapter** > _Finish_.
 - Sélectionner cette nouvelle interface (_Network Adapter 3_) et l'assigner à **Custom : VMnet2**.
 - Valider et démarrer le pare-feu pfSense.
+
 ---
 
 **Étape 3 : Activation et Assignation de l'interface dans pfSense**
@@ -45,6 +48,7 @@ Pour cette extension, un nouveau réseau virtuel est créé afin de cloisonner l
   - **IPv4 Address :** Saisir **172.16.0.2** et sélectionner le masque **24** (équivalent à 255.255.255.0).
 - Laisser la passerelle upstream sur _None_.
 - Cliquer sur **Save** en bas de page, puis sur **Apply Changes** en haut.
+
 ---
 
 **Étape 4 : Politique de Sécurité et Règles de Filtrage (Firewalling)**
@@ -69,6 +73,7 @@ Par défaut, pfSense applique un blocage implicite (_Deny All_). L'objectif TSSR
   - **Description :** Flux : Autoriser DMZ vers Internet
   - Cliquer sur **Save**.
 - Appliquer la configuration avec le bouton **Apply Changes**.
+
 ---
 
 **Étape 5 : Déploiement et Configuration du Serveur Debian Nginx**
@@ -124,6 +129,7 @@ Vérifier le statut du service :
 Bash
 
 systemctl status nginx
+
 ---
 
 **Étape 6 : Tests de Recette Technique (Validation TSSR)**
@@ -149,6 +155,7 @@ ping -c 4 10.8.0.10
 ping -c 4 google.fr
 
 \--> Statut attendu : Résolution IP instantanée et réponse positive (Internet fonctionnel).
+
 ---
 
 **Validation finale depuis le LAN :**

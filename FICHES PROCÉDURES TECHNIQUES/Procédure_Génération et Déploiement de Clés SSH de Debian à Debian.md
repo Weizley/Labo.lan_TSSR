@@ -1,6 +1,7 @@
-**FICHE DE PROCEDURE : Génération et Déploiement de Clés SSH de Debian à Debian**
+## FICHE DE PROCÉDURE : Génération et Déploiement de Clés SSH de Debian à Debian
 
 **Objectif :** Configurer une authentification par clé asymétrique sécurisée entre un serveur Debian "Source" (ex: serveur de supervision ou de script) et un serveur Debian "Cible" (ex: serveur GLPI).
+
 ---
 
 **Étape 1 : Génération de la paire de clés sur la Debian Source**
@@ -15,7 +16,8 @@ ssh-keygen -t ed25519 -C "admin-debian-source"
 - **Interactions dans le terminal :**
   - _Enter file in which to save the key :_ Appuiyer sur **Entrée** (chemin par défaut : ~/.ssh/id_ed25519).
   - _Enter passphrase :_ Laisser **vide** **uniquement s'il s'agit d'une clé destinée à des scripts automatisés** (sauvegardes, tâches cron). Si c'est pour une utilisation humaine, saisir une passphrase.
-  ---
+
+---
 
 **Étape 2 : Déploiement automatisé sur la Debian Cible**
 
@@ -32,6 +34,7 @@ ssh-copy-id -p 5555 utilisateur@IP_DEBIAN_CIBLE
 - Le système demande de valider l'empreinte du serveur cible (tape yes).
 - Le système demande le **mot de passe** de l'utilisateur sur la Debian Cible.
 - Une fois validé, un message confirme qu'**une clé a été ajoutée**.
+
 ---
 
 **Étape 3 : Sécurisation et permissions (Vérification automatique)**
@@ -42,6 +45,7 @@ Voici les droits qui ont été appliqués en tâche de fond sur la **Debian Cibl
 
 - Dossier ~/.ssh >**Droits 700** (drwx------) : Seul le propriétaire peut lire/écrire/ouvrir le dossier.
 - Fichier ~/.ssh/authorized_keys >**Droits 600** (-rw-------) : Seul le propriétaire peut lire/écrire le fichier.
+
 ---
 
 **Étape 4 : Test de connexion**
@@ -51,6 +55,7 @@ Depuis la Debian Source, se connecter.
 Bash
 
 ssh -p 5555 utilisateur@IP_DEBIAN_CIBLE
+
 ---
 
 **Étape 5 : Fichier config sous Linux**
@@ -78,6 +83,7 @@ Port 5555
 IdentityFile ~/.ssh/id_ed25519
 
 - Sauvegarder et quitter (Ctrl+O, Ctrl+X).
+
 ---
 
 **Résultat :** Dans les scripts de sauvegarde ou dans le terminal, il faut taper ssh glpi ou rsync -avz /mon/dossier/ glpi:/sauvegarde/.

@@ -1,10 +1,11 @@
-**FICHE DE PROCÉDURE : Mise en œuvre d'un Cluster Hyper-V Haute Disponibilité avec Stockage iSCSI**
+## FICHE DE PROCÉDURE : Mise en œuvre d'un Cluster Hyper-V Haute Disponibilité avec Stockage iSCSI
 
 **Objectif :** Créer une infrastructure virtualisée redondante (Cluster de basculement) permettant la migration à chaud (Live Migration) et la reprise après sinistre (Failover) de machines virtuelles.
 
 **Environnement cible :** 1 Contrôleur de domaine/Serveur de stockage (SRV-AD01), 2 Nœuds Hyper-V (SRV-HyperV1 et SRV-HyperV2).
 
 **Version :** v2.0 (Intégration du cloisonnement des flux réseau)
+
 ---
 
 **Étape 1 : Préparation du Stockage iSCSI (sur SRV-AD01)**
@@ -29,6 +30,7 @@ New-IscsiVirtualDisk -Path "E:\\iSCSIVirtualDisks\\Disque-Quorum.vhdx" -Size 1GB
 New-IscsiVirtualDisk -Path "E:\\iSCSIVirtualDisks\\Disque-VMs.vhdx" -Size 19GB
 
 - Via le **Gestionnaire de serveur** -> **Services de fichiers et de stockage** -> **iSCSI**, créez une cible (Target) iSCSI et associez-y les **IQN** (identifiants iSCSI) de vos deux nœuds SRV-HyperV1 et SRV-HyperV2 pour leur autoriser l'accès simultané aux deux disques.
+
 ---
 
 **Étape 2 : Configuration et Cloisonnement des Réseaux (Sur chaque Nœud)**
@@ -53,8 +55,8 @@ Configurez les propriétés TCP/IPv4 de vos cartes selon la matrice stricte ci-d
 | ---------------- | --------------------------- | --------------------------- | ------------------------- | -------------------------------------------- |
 | **Ethernet**     | _10.8.0.102_                | _10.8.0.104_                | 255.255.255.0             | Avec Passerelle + DNS pointant vers SRV-AD01 |
 | **Stockage**     | 192.168.10.1                | 192.168.10.2                | 255.255.255.0             | **Sans** Passerelle, **Sans** DNS            |
-| **Heartbeat**    | 10.0.0.1                    | 10.0.0.2                    | 255.255.255.0             | **Sans** Passerelle, **Sans** 
-DNS            |
+| **Heartbeat**    | 10.0.0.1                    | 10.0.0.2                    | 255.255.255.0             | **Sans** Passerelle, **Sans** DNS            |
+
 ---
 
 **Étape 3 : Connexion et Initialisation du Stockage (sur les Nœuds)**
@@ -72,6 +74,7 @@ DNS            |
 
 - Connectez l'**Initiateur iSCSI** à la même cible.
 - Ouvrez la **Gestion des disques** et passez simplement les deux disques **En ligne** (les volumes NTFS créés sur le Nœud 1 seront automatiquement reconnus).
+
 ---
 
 **Étape 4 : Validation et Création du Cluster**
@@ -84,7 +87,8 @@ DNS            |
 - Cliquez sur **Créer le cluster** :
   - Nommez le cluster (ex: CLUSTER-HYPERV).
   - _Attention :_ Décochez l'option _"Ajouter la totalité du stockage éligible"_ pour mapper les disques manuellement et éviter les conflits d'attribution.
-  ---
+
+---
 
 **Étape 5 : Résolution de l'erreur d'inscription DNS (CNO)**
 
@@ -96,6 +100,7 @@ Si le nœud affiche l'erreur d'accès refusé pour la zone DNS (ex: labo.lan) :
 - Cliquez sur **Ajouter**, modifiez le bouton **Types d'objets...** pour cocher **Ordinateurs**.
 - Saisissez le nom de l'objet ordinateur du cluster (**CNO**), validez et accordez-lui le **Plein contrôle**.
 - Dans le Gestionnaire de cluster, faites un clic droit sur la ressource de nom de réseau -> **Plus d'actions** -> **Inscrire DNS** pour forcer la mise à jour.
+
 ---
 
 **Étape 6 : Configuration du Quorum, du CSV et Rôles Réseau**
@@ -125,6 +130,7 @@ Si le nœud affiche l'erreur d'accès refusé pour la zone DNS (ex: labo.lan) :
 
 - Dans l'onglet **Réseaux** du cluster, cliquez sur **Paramètres de migration dynamique** (dans le volet Actions à droite).
 - Décochez le réseau LAN et **cochez uniquement le Réseau Heartbeat**. Le transfert de la RAM des VMs se fera exclusivement sur ce segment privé.
+
 ---
 
 **Étape 7 : Déploiement et Tests de Haute Disponibilité**

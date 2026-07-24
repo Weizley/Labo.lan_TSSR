@@ -1,6 +1,7 @@
-﻿**FICHE DE PROCEDURE : Chiffrement de lecteur bitlocker**
+﻿## FICHE DE PROCÉDURE : Chiffrement de lecteur bitlocker
 
 **Objectif :** Cette procédure décrit les étapes nécessaires pour activer le chiffrement de lecteur BitLocker sur le volume système (C:) d'un poste de travail Windows (10/11 Pro/Entreprise).
+
 ---
 
 Cette version s'applique spécifiquement aux environnements de test (Lab) ou aux postes ne disposant pas d'une puce matérielle **TPM (Trusted Platform Module)** fonctionnelle, en s'appuyant sur une modification de la stratégie de groupe locale.
@@ -12,6 +13,7 @@ Un poste ou une machine virtuelle exécutant **Windows 10/11 Professionnel** ou 
 Un compte utilisateur disposant des privilèges **Administrateur local**.
 
 Une clé USB (optionnel, pour la sauvegarde de la clé de récupération).
+
 ---
 
 **Étape 1: Autoriser le chiffrement sans puce TPM (Via GPO locale)**
@@ -35,6 +37,7 @@ Ouvrir une invite de commandes ou un terminal PowerShell en administrateur et fo
 DOS
 
 gpupdate /force
+
 ---
 
 **Étape 2 : Activation de BitLocker (Méthode Graphique)**
@@ -54,6 +57,7 @@ En face du lecteur C: cliquer sur **Activer BitLocker**.
 Cocher la case **Exécuter la vérification du système BitLocker**, puis cliquer sur **Continuer**.
 
 **Redémarrer le poste** pour initialiser le processus de chiffrement en arrière-plan.
+
 ---
 
 **Étape 3 : Activation de BitLocker (Méthode PowerShell - Alternative)**
@@ -71,6 +75,7 @@ Récupérer et sauvegarder immédiatement la clé de récupération de 48 chiffr
 PowerShell
 
 (Get-BitLockerVolume -MountPoint "C:").KeyProtector | Where-Object {$\_.KeyProtectorType -eq "RecoveryPassword"}
+
 ---
 
 **Étape 4 : Contrôle et Vérification**

@@ -1,6 +1,7 @@
-**FICHE DE PROCÉDURE: Mise en œuvre et déploiement de postes via FOG**
+## FICHE DE PROCÉDURE: Mise en œuvre et déploiement de postes via FOG
 
 **Objectif :** Automatiser le déploiement d'un système d'exploitation Windows 10 à l'aide de la solution Open Source FOG Project, en s'appuyant sur l'infrastructure existante (Active Directory, DNS, DHCP).
+
 ---
 
 **Étape 1 : Contexte et architecture du lab**
@@ -11,6 +12,7 @@ L'environnement de test est segmenté sur le commutateur virtuel privé **VMnet8
 - **SRV-FOG (Debian 13) :** 10.8.0.105 - Serveur de gestion et de stockage FOG (NFS, TFTP, Apache/PHP, MariaDB).
 - **MASTER-W10 (Windows 10) :** Machine de référence destinée à la capture de l'image.
 - **PC-CLIENT-01 (Vierge) :** Machine cible destinée à recevoir l'image déployée.
+
 ---
 
 **Étape 2 : Configuration et installation du serveur FOG**
@@ -52,6 +54,7 @@ Lorsque le script marque une pause :
 - Naviguer sur <http://10.8.0.105/fog/management>.
 - Cliquer sur **Install/Update Now** pour initialiser le schéma MariaDB.
 - Retourner sur le terminal Linux et appuyer sur Entrée pour finaliser l'installation.
+
 ---
 
 **Étape 3 : Configuration du serveur DHCP Windows (SRV-AD01)**
@@ -64,7 +67,8 @@ Afin de rediriger les requêtes d'amorçage réseau vers le serveur FOG, les opt
 - Ajouter/Vérifier les options suivantes :
   - **Option 066 (Nom d'hôte du serveur de démarrage) :** 10.8.0.105 (IP de SRV-FOG).
   - **Option 067 (Nom du fichier de démarrage) :** ipxe.efi (Adapté aux micrologiciels cibles configurés en mode **UEFI**).
-  ---
+
+---
 
 **Étape 4 : Préparation et généralisation du master (windows 10)**
 
@@ -78,6 +82,7 @@ Sur la machine MASTER-W10 :
 - Valider. La machine s'éteint. **Ne pas rallumer la machine sur son disque dur.**
 
 _Note : Réaliser un Snapshot sous VMware Workstation à cette étape pour faciliter les rollbacks._
+
 ---
 
 **Étape 5 : Capture de l'image master via l'interface web FOG**
@@ -101,6 +106,7 @@ _Note : Réaliser un Snapshot sous VMware Workstation à cette étape pour facil
 - **Règle d'exploitation :** S'assurer que la tâche est visible et active dans l'onglet global **Tasks** (icône de liste). En cas de boot manqué de la VM, la tâche doit être recréée car elle s'annule automatiquement.
 - Démarrer la VM MASTER-W10 et forcer le boot **PXE/Network** (via F12 ou l'option _Power On to Firmware_ de VMware).
 - Le processus s'exécute automatiquement via l'utilitaire **Partclone** (liaison de stockage NFS). À la fin du transfert, la machine s'éteint.
+
 ---
 
 **Étape 6 : Déploiement automatisé (méthode par enregistrement)**
@@ -115,6 +121,7 @@ Cette méthode est privilégiée en production pour maîtriser le nommage des ma
 - Cliquer sur **Add**, puis basculer dans l'onglet **Basic Tasks** >**Deploy**. Valider.
 - Démarrer la machine PC-CLIENT-01 en mode **PXE / Réseau**.
 - L'utilitaire **Partclone** intercepte le démarrage et déploie le système d'exploitation.
+
 ---
 
 **Étape 7 : Vérifications**

@@ -1,6 +1,7 @@
-﻿**FICHE DE PROCEDURE : Mise en place d’un partage de fichiers NFS**
+﻿## FICHE DE PROCÉDURE : Mise en place d’un partage de fichiers NFS
 
 **Objectif :** Configurer un partage réseau persistant entre un serveur Debian et un client Ubuntu.
+
 ---
 
 **1. Architecture du Labo**
@@ -8,6 +9,7 @@
 - **Serveur :** 10.8.0.101
 - **Client :** 10.8.0.102
 - **Protocole :** NFSv4
+
 ---
 
 **Configuration du Serveur (Debian)**
@@ -17,6 +19,7 @@
 sudo apt update
 
 sudo apt install nfs-kernel-server -y
+
 ---
 
 **Étape 2 : Création de l'arborescence**
@@ -26,6 +29,7 @@ sudo mkdir -p /export/shared
 sudo chown nobody:nogroup /export/shared
 
 sudo chmod 777 /export/shared
+
 ---
 
 **Étape 3 : Configuration des droits (Exports)**
@@ -61,6 +65,7 @@ sudo mkdir -p /mnt/nfs/shared
 sudo mount -t nfs 10.8.0.101:/shared /mnt/nfs/shared
 
 df -h | grep shared
+
 ---
 
 **Étape 4 : Automatisation au démarrage (FSTAB)**
@@ -72,12 +77,15 @@ Plaintext
 10\.0.8.101:/shared  /mnt/nfs/shared  nfs  defaults,user,\_netdev  0  0
 
 ---
+
 **4. Vérification et Diagnostic**
 
 - **Vérifier la disponibilité du serveur (depuis le client) :** showmount -e 10.8.0.101
 - **Vérifier les statistiques NFS :** nfsstat -s
 - **Tester les droits d'écriture :** touch /mnt/nfs/shared/test\_nom.txt
+
 ---
+
 **5. Notes Techniques** 
 
 - **fsid=0 :** Définit le dossier racine du serveur NFS pour simplifier le chemin côté client.

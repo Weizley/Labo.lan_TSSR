@@ -1,6 +1,7 @@
-**PROCEDURE TECHNIQUE : Mise en œuvre d'un Cluster Proxmox VE en Haute Disponibilité (HA) avec Arbitrage et Stockage Partagé**
+## FICHE DE PROCÉDURE : Mise en œuvre d'un Cluster Proxmox VE en Haute Disponibilité (HA) avec Arbitrage et Stockage Partagé
 
 **Objectif :** Créer une infrastructure virtualisée redondante (Cluster de basculement) permettant la migration à chaud (Live Migration) et la reprise après sinistre (Failover) de machines virtuelles.
+
 ---
 
 **1\. Présentation de l'Architecture**
@@ -18,6 +19,7 @@ L'objectif de cette procédure est de mettre en place un cluster à haute dispon
 - Les deux nœuds Proxmox doivent être configurés avec le dépôt **No-Subscription** (gratuit) pour permettre l'installation des paquets nécessaires (corosync-qdevice).
 - La virtualisation imbriquée (_Nested Virtualization_) doit être activée sur les VM Proxmox au niveau de VMware.
 - Toutes les machines doivent être dans le même plan d'adressage IP (Réseau 10.8.0.0/24) et s'interconnecter sans pare-feu bloquant.
+
 ---
 
 **Étape 1 : Création du Cluster Proxmox**
@@ -27,6 +29,7 @@ L'objectif de cette procédure est de mettre en place un cluster à haute dispon
 - Une fois créé, cliquer sur **Join Information** et copier le token d'identification.
 - Sur l'interface Web de **pve2**, aller dans **Datacenter -> Cluster**, cliquer sur **Join Cluster**, coller le token et renseigner le mot de passe root de pve1.
 - _Vérification :_ Les deux nœuds doivent apparaître en vert dans l'arborescence gauche.
+
 ---
 
 **Étape 2 : Configuration du Stockage Partagé (NFS)**
@@ -63,6 +66,7 @@ sudo systemctl restart nfs-kernel-server
 - **ID :** nfs-partage | **Server :** 10.8.0.101 | **Export :** /mnt/proxmox-shared.
 - **Content :** Sélectionner _Disk image_ et _Container_. Cliquer sur **Add**.
 - _Migration du disque de la VM :_ Aller sur la VM -> **Hardware** -> Sélectionner le disque -> **Disk Action -> Move Storage** -> Choisir nfs-partage (Cocher _Delete source_).
+
 ---
 
 **Étape 3 : Déploiement de l'Arbitre de Quorum (QDevice)**
@@ -103,6 +107,7 @@ _Saisir 'yes' pour valider l'empreinte SSH, puis entrer le mot de passe root de 
 - Sélectionner le **VMID** de la machine virtuelle cible.
 - Définir le **Requested State** sur **Started**.
 - Valider. Une icône de recyclage apparaît sur la VM, confirmant sa prise en charge par le gestionnaire HA.
+
 ---
 
 **Procédure de Validation**

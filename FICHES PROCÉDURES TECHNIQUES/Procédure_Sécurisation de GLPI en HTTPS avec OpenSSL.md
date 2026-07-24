@@ -1,6 +1,7 @@
-**FICHE DE PROCEDURE : Sécurisation de GLPI en HTTPS avec OpenSSL**
+## FICHE DE PROCÉDURE : Sécurisation de GLPI en HTTPS avec OpenSSL
 
 **Objectif :** Chiffrer les flux HTTP (port 80) vers HTTPS (port 443) sur un serveur Debian hébergeant GLPI 10 à l'aide d'un certificat auto-signé.
+
 ---
 
 **Étape 1 : Génération du certificat et de la clé privée (Le rôle d'OpenSSL)**
@@ -12,6 +13,7 @@ Bash
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/glpi.key -out /etc/ssl/certs/glpi.crt
 
 - **Important :** Au niveau du _Common Name_, renseigner l'adresse IP du serveur Debian.
+
 ---
 
 **Étape 2 : Configuration du serveur Web (Apache2)**
@@ -49,6 +51,7 @@ SSLCertificateFile /etc/ssl/certs/glpi.crt
 SSLCertificateKeyFile /etc/ssl/private/glpi.key
 
 - Sauvegarder et quitter (Ctrl+O, Ctrl+X).
+
 ---
 
 **Étape 3 : Sécurisation des sessions dans PHP**
@@ -68,6 +71,7 @@ Plaintext
 session.cookie_secure = on
 
 - Sauvegarder et quitter.
+
 ---
 
 **Étape 4 : Activation des modules et redémarrage des services**
@@ -93,6 +97,7 @@ sudo apache2ctl configtest
 \# 4. Redémarrage des services pour appliquer les changements
 
 sudo systemctl restart apache2
+
 ---
 
 **Étape 5 : Validation**

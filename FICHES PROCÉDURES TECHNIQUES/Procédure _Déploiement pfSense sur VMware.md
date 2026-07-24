@@ -1,6 +1,7 @@
-**FICHE DE PROCEDURE : Déploiement de pfSense sur VMware Workstation en Environnement de Lab**
+## FICHE DE PROCÉDURE : Déploiement de pfSense sur VMware Workstation en Environnement de Lab
 
 **Objectif :** Isoler un réseau de commodité (Lab) derrière un pare-feu virtuel pfSense, en assurant le routage NAT et la distribution des flux DNS/DHCP en collaboration avec un contrôleur de domaine Active Directory.
+
 ---
 
 **Étape 1 : Architecture Réseau & Plan d'Adressage**
