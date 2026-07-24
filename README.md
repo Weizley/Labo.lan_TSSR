@@ -1,6 +1,6 @@
 # Home Lab - Infrastructure Système et Réseau (labo.lan)
 
-Ce dépôt rassemble l'ensemble de la documentation technique, des architectures et des configurations de mon environnement de laboratoire, réalisé dans le cadre de ma formation de **Technicien Supérieur Systèmes et Réseaux**.
+Ce dépôt rassemble l'ensemble de la documentation technique, des architectures et des configurations de mon environnement de laboratoire, réalisé dans le cadre de ma formation de **Technicien Supérieur Systèmes et Réseaux** sur VMware Workstation Pro.
 
 ---
 
