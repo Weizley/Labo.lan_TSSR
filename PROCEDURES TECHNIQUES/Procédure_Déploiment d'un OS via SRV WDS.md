@@ -5,8 +5,8 @@
 **Domaine cible :** labo.lan
 
 **Objectif** : L'objectif de cette procédure est d'automatiser le déploiement de systèmes d'exploitation Windows 10 sur des postes clients vierges à travers le réseau.
-
 Cette méthode s'appuie sur le mécanisme de **Boot PXE** et centralise les rôles nécessaires (AD DS, DNS, DHCP, WDS) sur un unique serveur d'infrastructure.
+---
 
 **Étape 1 : Architecture de la Maquette**
 
@@ -25,6 +25,7 @@ Cette méthode s'appuie sur le mécanisme de **Boot PXE** et centralise les rôl
 **Environnement Réseau**
 
 - **Commutateur virtuel :** Connecté sur un segment isolé (ex: _LAN Segment_ ou _VMnet_ dédié sous VMware) afin de confiner les flux DHCP de test et d'éviter toute perturbation sur le réseau de production ou la box internet.
+---
 
 **Étape 2 : Procédure Technique**
 
@@ -39,6 +40,7 @@ Cette méthode s'appuie sur le mécanisme de **Boot PXE** et centralise les rôl
   - _Ne pas écouter sur les ports DHCP (port 67)_
   - _Configurer les options DHCP pour Proxy DHCP_
 - À l'étape **Réponse PXE**, sélectionner _Répondre à tous les ordinateurs clients (connus et inconnus)_.
+---
 
 **Étape 3 : Gestion et Conversion des Images (.esd vers .wim)**
 
@@ -60,6 +62,7 @@ dism /Export-Image /SourceImageFile:D:\\sources\\install.esd /SourceIndex:6 /Des
 - **Image d'installation :** Clic droit sur _Images d'installation_ > _Ajouter un groupe d'images_ (Nom : Windows 10). Clic droit sur le groupe > _Ajouter_. Sélectionner le fichier fraîchement converti **C:\\Temp\\install.wim**.
 
 **Étape 4 : Phase d'Amorce et Déploiement Client**
+---
 
 - S'assurer du raccordement de la VM cliente sur le segment réseau de AD01.
 - Démarrer la VM cliente. La carte réseau effectue sa requête de découverte et obtient une configuration IP depuis l'étendue DHCP du serveur 10.0.8.10.

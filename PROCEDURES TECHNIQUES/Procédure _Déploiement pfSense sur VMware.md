@@ -1,6 +1,7 @@
 **FICHE DE PROCEDURE : Déploiement de pfSense sur VMware Workstation en Environnement de Lab**
 
 **Objectif :** Isoler un réseau de commodité (Lab) derrière un pare-feu virtuel pfSense, en assurant le routage NAT et la distribution des flux DNS/DHCP en collaboration avec un contrôleur de domaine Active Directory.
+---
 
 **Étape 1 : Architecture Réseau & Plan d'Adressage**
 
@@ -15,6 +16,7 @@ Avant toute manipulation dans l'hyperviseur, la cartographie logicielle des rés
 
 - **pfSense (LAN) :** 10.8.0.2 (Passerelle par défaut du Lab)
 - **Serveur AD (SRV-AD01) :** 10.8.0.10 (Rôles AD, DNS principal, DHCP)
+---
 
 **Étape 2 : Configuration de l'Éditeur Réseau Virtuel (VMware)**
 
@@ -25,6 +27,7 @@ Avant toute manipulation dans l'hyperviseur, la cartographie logicielle des rés
 - Configurer le **VMnet8** :
   - Sélectionner **Hôte uniquement** (Host-only).
   - **Décocher** l'option _"Utiliser le service DHCP virtuel de VMware"_. C'est le serveur Windows qui gérera ce rôle.
+---
 
 **Étape 3 : Création et Paramétrage du Matériel de la VM pfSense**
 
@@ -37,6 +40,7 @@ Avant toute manipulation dans l'hyperviseur, la cartographie logicielle des rés
   - **Carte réseau 1 (WAN) :** Associer à **Personnalisé : VMnet0**.
   - **Carte réseau 2 (LAN) :** Cliquer sur _Add... > Network Adapter_, puis associer à **Personnalisé : VMnet8**.
 - Dans l'onglet CD/DVD, monter l'ISO de l'installateur Netgate/pfSense et cocher _Connect at power on_.
+---
 
 **Étape 4 : Phase d'Installation de l'OS (FreeBSD)**
 
@@ -45,6 +49,7 @@ Avant toute manipulation dans l'hyperviseur, la cartographie logicielle des rés
 - Procéder à l'installation. À la fin, lorsque l'assistant propose d'ouvrir un Shell, sélectionner **No**.
 - Cliquer sur **Reboot**.
 - **Action immédiate TSSR :** Au redémarrage de la VM, détacher l'ISO dans les options de VMware (décocher _Connected_) pour éviter de booter en boucle sur l'installateur.
+---
 
 **Étape 5 : Configuration Initiale en Console (Clavier QWERTY)**
 
@@ -58,6 +63,7 @@ Avant toute manipulation dans l'hyperviseur, la cartographie logicielle des rés
 - **IPv6 :** Valider par **Entrée** (None).
 - **Serveur DHCP interne :** À la question Do you want to enable the DHCP Server on LAN?, saisir **n** (No).
 - **Protocole Web :** À la question Do you want to revert to HTTP?, saisir **n** (conserver le HTTPS).
+---
 
 **Étape 6 : Configuration Post-Installation via le WebGUI**
 
@@ -81,6 +87,7 @@ L'assistant _Setup Wizard_ se lance automatiquement :
 - Passer les étapes LAN (déjà configuré en console).
 - Modifier impérativement le mot de passe de l'administrateur système (admin).
 - Cliquer sur **Reload**.
+---
 
 **Étape 7 : Interconnexion et Validation de l'Infrastructure**
 

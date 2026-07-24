@@ -3,6 +3,7 @@
 **Objectif :** Durcissement d'un serveur d\'infrastructure Linux (Debian
 13) **Application :** Serveur GLPI (Environnement de Laboratoire /
 Production)
+---
 
 Cette procédure décrit les étapes indispensables pour sécuriser l\'accès
 local et réseau d\'un serveur Debian 13 hébergeant un service GLPI, tout
@@ -12,6 +13,7 @@ interconnectés (Cluster Proxmox VE, Quorum, partage NFS, VPN Wireguard).
 **Prérequis & règles de sécurité**
 
 Disposer d\'un accès avec les privilèges sudo ou root.
+---
 
 **Étape 1 : sécurisation avant modification (sauvegarde & instantané)**
 
@@ -39,6 +41,7 @@ sudo tar -czf sauvegardepro.tar.gz /etc
 
 *Vérification de la création de l\'archive :* ls -lh
 sauvegardepro.tar.gz
+---
 
 **Étape 2 : gestion des comptes et sécurisation des droits critiques**
 
@@ -66,6 +69,7 @@ sudo usermod -L test_stagiaire
 *Vérification :* Exécuter sudo tail -n 5 /etc/shadow. Un point
 d\'exclamation (!) doit apparaître au début du hachage du mot de passe
 de l\'utilisateur, invalidant toute authentification.
+---
 
 **Étape 3 : durcissement réseau et configuration du pare-feu (ufw)**
 
@@ -132,6 +136,7 @@ Vérifier la bonne application des règles :
 Bash
 
 sudo ufw status
+---
 
 **Procédure de repli (rollback)**
 

@@ -5,6 +5,7 @@
 d\'administration entre un poste client Windows et un serveur Debian en
 mettant en œuvre un tunnel VPN de type \"Point à Point\" basé sur le
 protocole **WireGuard**.
+---
 
 **1.Informations d\'adressage (Lab) :**
 
@@ -19,6 +20,7 @@ protocole **WireGuard**.
 -   **IP Virtuelle (Tunnel) Client :** 10.9.0.2/32
 
 -   **Port d\'écoute UDP :** 51820
+---
 
 **2. Configuration du Serveur VPN (Debian)**
 
@@ -104,6 +106,7 @@ SaveConfig = false
 PublicKey = \<INSÉRER_LA_CLÉ_PUBLIQUE_GÉNÉRÉE_PAR_WINDOWS\>
 
 AllowedIPs = 10.9.0.2/32
+---
 
 **3. Configuration du Client VPN (Windows)**
 
@@ -146,6 +149,7 @@ AllowedIPs = 10.9.0.0/24, 10.8.0.0/24
 *La directive AllowedIPs côté client force le système d\'exploitation
 Windows à router le réseau du tunnel (10.9.0.0/24) ET le réseau LAN
 physique (10.8.0.0/24) à travers le VPN.*
+---
 
 **4. Initialisation et Validation du Tunnel**
 
@@ -188,6 +192,7 @@ ping 10.9.0.1
 
 ping 10.8.0.10 (Routage asymétrique sur Pfsense pour que le ping
 fonctionne)
+---
 
 **5. Règle d\'or pour le maintien en condition opérationnelle (MCO)**
 
