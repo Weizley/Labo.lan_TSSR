@@ -1,4 +1,4 @@
-# Home Lab - Infrastructure Système et Réseau (labo.lan)
+# Homelab - Infrastructure Système et Réseau (labo.lan)
 
 Ce dépôt rassemble l'ensemble de la documentation technique, des architectures et des configurations de mon environnement de laboratoire, réalisé dans le cadre de ma formation de **Technicien Supérieur Systèmes et Réseaux** sur VMware Workstation Pro.
 
@@ -43,5 +43,3 @@ Voici le schéma de l'infrastructure labo.lan :
 ### Zone DMZ (`172.16.0.0/24` | Passerelle : `172.16.0.2`)
 * **Serveur Web Externe :**
   * `Debian13 Nginx` (`172.16.0.50`) : Serveur web isolé de la production pour accueillir les flux externes HTTP/HTTPS.
-
----
