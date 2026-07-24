@@ -12,7 +12,7 @@ L'objectif de ce laboratoire est de concevoir, déployer, cloisonner et sécuris
 ## Architecture Réseau & Schéma cible
 Voici le schéma de l'infrastructure labo.lan :
 
-![Plan Réseau de mon Labo TSSR](images/Plan_Labo.lan.png)
+![Plan Réseau de mon Labo TSSR](04_IMAGES/Plan_Labo.lan.png)
 
 ---
 
