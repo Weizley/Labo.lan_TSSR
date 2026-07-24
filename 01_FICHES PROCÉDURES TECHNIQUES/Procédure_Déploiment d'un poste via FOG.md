@@ -1,4 +1,4 @@
-## FICHE DE PROCÉDURE: Mise en œuvre et déploiement de postes via FOG
+## FICHE DE PROCÉDURE : Mise en œuvre et déploiement de postes via FOG
 
 **Objectif :** Automatiser le déploiement d'un système d'exploitation Windows 10 à l'aide de la solution Open Source FOG Project, en s'appuyant sur l'infrastructure existante (Active Directory, DNS, DHCP).
 

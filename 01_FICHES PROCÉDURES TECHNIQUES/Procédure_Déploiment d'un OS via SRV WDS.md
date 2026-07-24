@@ -1,4 +1,4 @@
-## FICHE DE PROCÉDURE: Déploiement d'un OS via WDS / PXE
+## FICHE DE PROCÉDURE : Déploiement d'un OS via WDS / PXE
 
 **Environnement :** Maquette VMware Workstation
 
